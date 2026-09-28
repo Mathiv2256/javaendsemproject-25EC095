@@ -1,10 +1,1377 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MaintainIt | Preventive Maintenance Management</title>
+
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-$END$
+
+<!-- =========================================================
+     APPLICATION LAYOUT
+========================================================= -->
+
+<div class="app-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-mark">
+                M
+            </div>
+
+            <div class="brand-text">
+                <h1>MaintainIt</h1>
+                <span>Maintenance Management</span>
+            </div>
+        </div>
+
+        <div class="sidebar-divider"></div>
+
+        <nav class="sidebar-nav">
+
+            <p class="nav-label">MAIN</p>
+
+            <button class="nav-item active" data-section="dashboard">
+                <span class="nav-icon">▦</span>
+                <span>Dashboard</span>
+            </button>
+
+            <button class="nav-item" data-section="machines">
+                <span class="nav-icon">▣</span>
+                <span>Machines</span>
+            </button>
+
+            <button class="nav-item" data-section="technicians">
+                <span class="nav-icon">◉</span>
+                <span>Technicians</span>
+            </button>
+
+            <p class="nav-label">OPERATIONS</p>
+
+            <button class="nav-item" data-section="usage">
+                <span class="nav-icon">◷</span>
+                <span>Usage Logs</span>
+            </button>
+
+            <button class="nav-item" data-section="maintenance">
+                <span class="nav-icon">◆</span>
+                <span>Maintenance</span>
+            </button>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="system-status">
+                <span class="status-dot"></span>
+
+                <div>
+                    <strong>System Online</strong>
+                    <small>Backend connected</small>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <span>MaintainIt</span>
+                <span>v1.0</span>
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+        <!-- =================================================
+             TOP HEADER
+        ================================================== -->
+
+        <header class="top-header">
+
+            <div class="header-left">
+
+                <button class="mobile-menu" id="mobileMenu">
+                    ☰
+                </button>
+
+                <div>
+                    <p class="header-eyebrow">MAINTENANCE OPERATIONS</p>
+                    <h2 id="pageTitle">Dashboard</h2>
+                </div>
+
+            </div>
+
+            <div class="header-right">
+
+                <div class="connection-indicator">
+                    <span class="status-dot"></span>
+                    API Connected
+                </div>
+
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        A
+                    </div>
+
+                    <div class="user-details">
+                        <strong>Administrator</strong>
+                        <span>Maintenance Manager</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             PAGE CONTENT
+        ================================================== -->
+
+        <div class="page-container">
+
+
+            <!-- =================================================
+                 DASHBOARD
+            ================================================== -->
+
+            <section id="dashboard" class="page-section active">
+
+                <div class="section-header">
+
+                    <div>
+                        <p class="section-kicker">OVERVIEW</p>
+
+                        <h1>Maintenance Dashboard</h1>
+
+                        <p class="section-description">
+                            Monitor equipment health, usage levels and preventive
+                            maintenance activity from one place.
+                        </p>
+                    </div>
+
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" id="refreshDashboard">
+                            ↻ Refresh
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <!-- STATISTICS -->
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+                        <div class="stat-card-top">
+                            <span class="stat-label">TOTAL MACHINES</span>
+                            <span class="stat-icon">▣</span>
+                        </div>
+
+                        <div class="stat-value" id="totalMachines">
+                            0
+                        </div>
+
+                        <div class="stat-footer">
+                            Registered equipment
+                        </div>
+                    </div>
+
+
+                    <div class="stat-card">
+                        <div class="stat-card-top">
+                            <span class="stat-label">NORMAL</span>
+                            <span class="stat-icon normal-icon">✓</span>
+                        </div>
+
+                        <div class="stat-value" id="normalMachines">
+                            0
+                        </div>
+
+                        <div class="stat-footer">
+                            Operating within limits
+                        </div>
+                    </div>
+
+
+                    <div class="stat-card">
+                        <div class="stat-card-top">
+                            <span class="stat-label">APPROACHING</span>
+                            <span class="stat-icon warning-icon">!</span>
+                        </div>
+
+                        <div class="stat-value" id="approachingMachines">
+                            0
+                        </div>
+
+                        <div class="stat-footer">
+                            Maintenance threshold near
+                        </div>
+                    </div>
+
+
+                    <div class="stat-card">
+                        <div class="stat-card-top">
+                            <span class="stat-label">DUE</span>
+                            <span class="stat-icon danger-icon">!</span>
+                        </div>
+
+                        <div class="stat-value" id="dueMachines">
+                            0
+                        </div>
+
+                        <div class="stat-footer">
+                            Immediate attention required
+                        </div>
+                    </div>
+
+
+                    <div class="stat-card">
+                        <div class="stat-card-top">
+                            <span class="stat-label">OPEN TASKS</span>
+                            <span class="stat-icon">◆</span>
+                        </div>
+
+                        <div class="stat-value" id="openTasks">
+                            0
+                        </div>
+
+                        <div class="stat-footer">
+                            Active maintenance tasks
+                        </div>
+                    </div>
+
+
+                    <div class="stat-card">
+                        <div class="stat-card-top">
+                            <span class="stat-label">TECHNICIANS</span>
+                            <span class="stat-icon">◉</span>
+                        </div>
+
+                        <div class="stat-value" id="totalTechnicians">
+                            0
+                        </div>
+
+                        <div class="stat-footer">
+                            Maintenance personnel
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- DASHBOARD CONTENT -->
+
+                <div class="dashboard-grid">
+
+                    <div class="panel large-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <p class="panel-kicker">EQUIPMENT STATUS</p>
+                                <h3>Machine Maintenance Overview</h3>
+                            </div>
+
+                            <button
+                                    class="text-button"
+                                    data-section-target="machines">
+                                View Machines →
+                            </button>
+
+                        </div>
+
+                        <div id="dashboardMachineList"
+                             class="machine-overview-list">
+
+                            <div class="empty-state">
+                                <div class="empty-icon">▣</div>
+                                <h3>No machine data</h3>
+                                <p>
+                                    Add machines to start monitoring maintenance
+                                    status.
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <p class="panel-kicker">MAINTENANCE</p>
+                                <h3>Upcoming Tasks</h3>
+                            </div>
+
+                            <button
+                                    class="text-button"
+                                    data-section-target="maintenance">
+                                View All →
+                            </button>
+
+                        </div>
+
+                        <div id="dashboardTaskList"
+                             class="task-list">
+
+                            <div class="empty-state compact">
+                                <div class="empty-icon">◆</div>
+
+                                <h3>No open tasks</h3>
+
+                                <p>
+                                    Scheduled maintenance tasks will appear here.
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 MACHINES
+            ================================================== -->
+
+            <section id="machines" class="page-section">
+
+                <div class="section-header">
+
+                    <div>
+                        <p class="section-kicker">ASSET MANAGEMENT</p>
+
+                        <h1>Machines</h1>
+
+                        <p class="section-description">
+                            Register equipment and monitor its preventive
+                            maintenance interval.
+                        </p>
+                    </div>
+
+                    <button
+                            class="btn btn-primary"
+                            id="openMachineModal">
+                        + Add Machine
+                    </button>
+
+                </div>
+
+
+                <div class="toolbar">
+
+                    <div class="search-box">
+
+                        <span>⌕</span>
+
+                        <input
+                                type="text"
+                                id="machineSearch"
+                                placeholder="Search machines, codes or models...">
+
+                    </div>
+
+                    <select id="machineStatusFilter"
+                            class="filter-select">
+
+                        <option value="ALL">All Status</option>
+                        <option value="NORMAL">Normal</option>
+                        <option value="APPROACHING">Approaching</option>
+                        <option value="DUE">Due</option>
+
+                    </select>
+
+                    <button
+                            class="btn btn-secondary"
+                            id="refreshMachines">
+                        ↻ Refresh
+                    </button>
+
+                </div>
+
+
+                <div class="panel table-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <p class="panel-kicker">REGISTERED EQUIPMENT</p>
+                            <h3>Machine Registry</h3>
+                        </div>
+
+                        <span class="record-count"
+                              id="machineRecordCount">
+                            0 records
+                        </span>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                            <tr>
+                                <th>Machine</th>
+                                <th>Code</th>
+                                <th>Manufacturer</th>
+                                <th>Usage</th>
+                                <th>Maintenance Interval</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+
+                            </thead>
+
+                            <tbody id="machineTableBody">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 TECHNICIANS
+            ================================================== -->
+
+            <section id="technicians" class="page-section">
+
+                <div class="section-header">
+
+                    <div>
+                        <p class="section-kicker">WORKFORCE</p>
+
+                        <h1>Technicians</h1>
+
+                        <p class="section-description">
+                            Manage maintenance personnel and their
+                            technical specializations.
+                        </p>
+                    </div>
+
+                    <button
+                            class="btn btn-primary"
+                            id="openTechnicianModal">
+                        + Add Technician
+                    </button>
+
+                </div>
+
+
+                <div class="toolbar">
+
+                    <div class="search-box">
+
+                        <span>⌕</span>
+
+                        <input
+                                type="text"
+                                id="technicianSearch"
+                                placeholder="Search technicians...">
+
+                    </div>
+
+                    <button
+                            class="btn btn-secondary"
+                            id="refreshTechnicians">
+                        ↻ Refresh
+                    </button>
+
+                </div>
+
+
+                <div class="technician-grid"
+                     id="technicianGrid">
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">◉</div>
+
+                        <h3>No technicians registered</h3>
+
+                        <p>
+                            Add your first maintenance technician.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 USAGE LOGS
+            ================================================== -->
+
+            <section id="usage" class="page-section">
+
+                <div class="section-header">
+
+                    <div>
+                        <p class="section-kicker">EQUIPMENT UTILIZATION</p>
+
+                        <h1>Usage Logs</h1>
+
+                        <p class="section-description">
+                            Record machine operating hours and automatically
+                            update maintenance counters.
+                        </p>
+                    </div>
+
+                    <button
+                            class="btn btn-primary"
+                            id="openUsageModal">
+                        + Record Usage
+                    </button>
+
+                </div>
+
+
+                <div class="usage-summary">
+
+                    <div class="summary-box">
+                        <span>Total Logs</span>
+                        <strong id="totalUsageLogs">0</strong>
+                    </div>
+
+                    <div class="summary-box">
+                        <span>Total Hours Logged</span>
+                        <strong id="totalUsageHours">0</strong>
+                    </div>
+
+                    <div class="summary-box">
+                        <span>Latest Activity</span>
+                        <strong id="latestUsageDate">—</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="panel table-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <p class="panel-kicker">ACTIVITY HISTORY</p>
+                            <h3>Machine Usage History</h3>
+                        </div>
+
+                        <div class="search-box small">
+
+                            <span>⌕</span>
+
+                            <input
+                                    type="text"
+                                    id="usageSearch"
+                                    placeholder="Search logs...">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                            <tr>
+                                <th>Date</th>
+                                <th>Machine</th>
+                                <th>Hours Used</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+
+                            </thead>
+
+                            <tbody id="usageTableBody">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 MAINTENANCE
+            ================================================== -->
+
+            <section id="maintenance" class="page-section">
+
+                <div class="section-header">
+
+                    <div>
+                        <p class="section-kicker">PREVENTIVE MAINTENANCE</p>
+
+                        <h1>Maintenance Tasks</h1>
+
+                        <p class="section-description">
+                            Schedule, track and complete preventive maintenance
+                            activities.
+                        </p>
+                    </div>
+
+                    <button
+                            class="btn btn-primary"
+                            id="openMaintenanceModal">
+                        + Schedule Maintenance
+                    </button>
+
+                </div>
+
+
+                <div class="maintenance-summary">
+
+                    <div class="summary-box">
+                        <span>All Tasks</span>
+                        <strong id="totalTasks">0</strong>
+                    </div>
+
+                    <div class="summary-box warning-summary">
+                        <span>Open</span>
+                        <strong id="maintenanceOpenTasks">0</strong>
+                    </div>
+
+                    <div class="summary-box success-summary">
+                        <span>Completed</span>
+                        <strong id="completedTasks">0</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="toolbar">
+
+                    <div class="search-box">
+
+                        <span>⌕</span>
+
+                        <input
+                                type="text"
+                                id="maintenanceSearch"
+                                placeholder="Search maintenance tasks...">
+
+                    </div>
+
+                    <select
+                            id="maintenanceStatusFilter"
+                            class="filter-select">
+
+                        <option value="ALL">All Status</option>
+                        <option value="OPEN">Open</option>
+                        <option value="COMPLETED">Completed</option>
+
+                    </select>
+
+                    <button
+                            class="btn btn-secondary"
+                            id="refreshMaintenance">
+                        ↻ Refresh
+                    </button>
+
+                </div>
+
+
+                <div class="panel table-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <p class="panel-kicker">MAINTENANCE REGISTER</p>
+                            <h3>Maintenance Schedule</h3>
+                        </div>
+
+                        <span class="record-count"
+                              id="maintenanceRecordCount">
+                            0 records
+                        </span>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                            <tr>
+                                <th>Machine</th>
+                                <th>Task</th>
+                                <th>Technician</th>
+                                <th>Scheduled</th>
+                                <th>Status</th>
+                                <th>Completed</th>
+                                <th>Actions</th>
+                            </tr>
+
+                            </thead>
+
+                            <tbody id="maintenanceTableBody">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     MACHINE MODAL
+========================================================= -->
+
+<div class="modal-overlay" id="machineModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+                <p class="modal-kicker">ASSET REGISTRATION</p>
+                <h2 id="machineModalTitle">Add Machine</h2>
+            </div>
+
+            <button class="modal-close"
+                    data-close-modal="machineModal">
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="machineForm">
+
+            <input type="hidden" id="machineId">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="machineName">
+                        Machine Name
+                    </label>
+
+                    <input
+                            type="text"
+                            id="machineName"
+                            required
+                            placeholder="CNC Machine">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="machineCode">
+                        Machine Code
+                    </label>
+
+                    <input
+                            type="text"
+                            id="machineCode"
+                            required
+                            placeholder="CNC-001">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="machineModel">
+                        Model
+                    </label>
+
+                    <input
+                            type="text"
+                            id="machineModel"
+                            required
+                            placeholder="Haas VF-2">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="machineManufacturer">
+                        Manufacturer
+                    </label>
+
+                    <input
+                            type="text"
+                            id="machineManufacturer"
+                            required
+                            placeholder="Haas">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="currentUsage">
+                        Current Usage Hours
+                    </label>
+
+                    <input
+                            type="number"
+                            id="currentUsage"
+                            min="0"
+                            step="0.01"
+                            required
+                            placeholder="80">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="maintenanceInterval">
+                        Maintenance Interval Hours
+                    </label>
+
+                    <input
+                            type="number"
+                            id="maintenanceInterval"
+                            min="0"
+                            step="0.01"
+                            required
+                            placeholder="100">
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-close-modal="machineModal">
+                    Cancel
+                </button>
+
+                <button
+                        type="submit"
+                        class="btn btn-primary">
+                    Save Machine
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     TECHNICIAN MODAL
+========================================================= -->
+
+<div class="modal-overlay" id="technicianModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+                <p class="modal-kicker">WORKFORCE MANAGEMENT</p>
+                <h2 id="technicianModalTitle">
+                    Add Technician
+                </h2>
+            </div>
+
+            <button class="modal-close"
+                    data-close-modal="technicianModal">
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="technicianForm">
+
+            <input type="hidden" id="technicianId">
+
+            <div class="form-grid">
+
+                <div class="form-group full-width">
+
+                    <label for="technicianName">
+                        Full Name
+                    </label>
+
+                    <input
+                            type="text"
+                            id="technicianName"
+                            required
+                            placeholder="Arun Kumar">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="technicianEmail">
+                        Email
+                    </label>
+
+                    <input
+                            type="email"
+                            id="technicianEmail"
+                            required
+                            placeholder="arun@example.com">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="technicianPhone">
+                        Phone
+                    </label>
+
+                    <input
+                            type="text"
+                            id="technicianPhone"
+                            required
+                            placeholder="9876543210">
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label for="technicianSpecialization">
+                        Specialization
+                    </label>
+
+                    <input
+                            type="text"
+                            id="technicianSpecialization"
+                            required
+                            placeholder="CNC Maintenance">
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-close-modal="technicianModal">
+                    Cancel
+                </button>
+
+                <button
+                        type="submit"
+                        class="btn btn-primary">
+                    Save Technician
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     USAGE LOG MODAL
+========================================================= -->
+
+<div class="modal-overlay" id="usageModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+                <p class="modal-kicker">EQUIPMENT UTILIZATION</p>
+                <h2>Record Machine Usage</h2>
+            </div>
+
+            <button class="modal-close"
+                    data-close-modal="usageModal">
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="usageForm">
+
+            <div class="form-grid">
+
+                <div class="form-group full-width">
+
+                    <label for="usageMachine">
+                        Machine
+                    </label>
+
+                    <select
+                            id="usageMachine"
+                            required>
+
+                        <option value="">
+                            Select machine
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="usageHours">
+                        Hours Used
+                    </label>
+
+                    <input
+                            type="number"
+                            id="usageHours"
+                            min="0.01"
+                            step="0.01"
+                            required
+                            placeholder="10">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="usageDate">
+                        Usage Date
+                    </label>
+
+                    <input
+                            type="date"
+                            id="usageDate"
+                            required>
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label for="usageDescription">
+                        Description
+                    </label>
+
+                    <textarea
+                            id="usageDescription"
+                            rows="4"
+                            placeholder="Describe machine operation..."></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-close-modal="usageModal">
+                    Cancel
+                </button>
+
+                <button
+                        type="submit"
+                        class="btn btn-primary">
+                    Record Usage
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MAINTENANCE MODAL
+========================================================= -->
+
+<div class="modal-overlay" id="maintenanceModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+                <p class="modal-kicker">PREVENTIVE MAINTENANCE</p>
+                <h2>Schedule Maintenance</h2>
+            </div>
+
+            <button class="modal-close"
+                    data-close-modal="maintenanceModal">
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="maintenanceForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="maintenanceMachine">
+                        Machine
+                    </label>
+
+                    <select
+                            id="maintenanceMachine"
+                            required>
+
+                        <option value="">
+                            Select machine
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="maintenanceTechnician">
+                        Technician
+                    </label>
+
+                    <select
+                            id="maintenanceTechnician"
+                            required>
+
+                        <option value="">
+                            Select technician
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label for="taskDescription">
+                        Task Description
+                    </label>
+
+                    <input
+                            type="text"
+                            id="taskDescription"
+                            required
+                            placeholder="Routine preventive maintenance">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="scheduledDate">
+                        Scheduled Date
+                    </label>
+
+                    <input
+                            type="date"
+                            id="scheduledDate"
+                            required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="taskStatus">
+                        Status
+                    </label>
+
+                    <select id="taskStatus">
+
+                        <option value="OPEN">
+                            OPEN
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label for="taskNotes">
+                        Notes
+                    </label>
+
+                    <textarea
+                            id="taskNotes"
+                            rows="4"
+                            placeholder="Maintenance notes..."></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-close-modal="maintenanceModal">
+                    Cancel
+                </button>
+
+                <button
+                        type="submit"
+                        class="btn btn-primary">
+                    Schedule Task
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     CONFIRMATION MODAL
+========================================================= -->
+
+<div class="modal-overlay" id="confirmModal">
+
+    <div class="modal small-modal">
+
+        <div class="modal-header">
+
+            <div>
+                <p class="modal-kicker">CONFIRM ACTION</p>
+                <h2 id="confirmTitle">Confirm Action</h2>
+            </div>
+
+            <button class="modal-close"
+                    data-close-modal="confirmModal">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="confirm-content">
+
+            <div class="confirm-icon">
+                !
+            </div>
+
+            <p id="confirmMessage">
+                Are you sure you want to continue?
+            </p>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-close-modal="confirmModal">
+                Cancel
+            </button>
+
+            <button
+                    type="button"
+                    class="btn btn-danger"
+                    id="confirmAction">
+                Confirm
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     TOAST CONTAINER
+========================================================= -->
+
+<div id="toastContainer"
+     class="toast-container">
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script src="js/app.js"></script>
+
 </body>
 </html>
